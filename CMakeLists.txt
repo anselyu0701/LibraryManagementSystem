@@ -11,7 +11,6 @@ include_directories(inc)
 # Source files
 set(SOURCES
     src/main.cpp
-    src/CMain.cpp
     src/CLibrary.cpp
     src/CBook.cpp
     src/CUser.cpp
