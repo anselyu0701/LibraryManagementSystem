@@ -1,6 +1,7 @@
 # Library Management System (C++)
 
 ![Library Management System Diagram](assets/lms-diagram.png)
+![Library Management System Spec](assets/spec.md)
 
 ## Project Description
 
