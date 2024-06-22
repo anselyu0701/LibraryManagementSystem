@@ -1,0 +1,163 @@
+@startuml
+!define RECTANGLE class
+!define INTERFACE interface
+
+scale 1800
+' Singleton Library class
+RECTANGLE Library {
+  - books: vector<Book>
+  - users: vector<User>
+  - transactions: vector<Transaction>
+  - reservations: vector<Reservation>
+  - logs: vector<Log>
+  - fines: vector<Fine>
+  - mutex: std::mutex
+  + getInstance(): Library
+  + addBook(book: Book): void
+  + removeBook(isbn: string): void
+  + addUser(user: User): void
+  + removeUser(userID: int): void
+  + processTransaction(transaction: Transaction): void
+  + searchBooks(query: string, type: string): vector<Book>
+  + generateReport(type: string): Report
+  + logEvent(event: string): void
+}
+
+' Book class
+RECTANGLE Book {
+  - title: string
+  - author: string
+  - ISBN: string
+  - genre: string
+  - status: bool
+  + getTitle(): string
+  + getAuthor(): string
+  + getISBN(): string
+  + getGenre(): string
+  + isAvailable(): bool
+  + borrowBook(): void
+  + returnBook(): void
+}
+
+' User class hierarchy
+RECTANGLE User {
+  - userID: int
+  - name: string
+  - borrowedBooks: vector<Book>
+  - reservations: vector<Reservation>
+  + getUserID(): int
+  + getName(): string
+  + borrowBook(book: Book): void
+  + returnBook(book: Book): void
+  + reserveBook(book: Book): void
+  + cancelReservation(book: Book): void
+}
+
+RECTANGLE Admin {
+  - adminID: int
+  - name: string
+  + addBook(book: Book): void
+  + removeBook(isbn: string): void
+  + addUser(user: User): void
+  + removeUser(userID: int): void
+  + generateReport(type: string): Report
+  + logEvent(event: string): void
+}
+
+RECTANGLE Librarian {
+  - librarianID: int
+  - name: string
+  + checkOutBook(book: Book, user: User): void
+  + checkInBook(book: Book, user: User): void
+}
+
+RECTANGLE Member {
+  - memberID: int
+  - name: string
+  + payFine(fine: Fine): void
+}
+
+' Transaction interface and concrete classes
+INTERFACE Transaction {
+  + execute(): void
+}
+
+RECTANGLE BorrowTransaction {
+  - book: Book
+  - user: User
+  + execute(): void
+}
+
+RECTANGLE ReturnTransaction {
+  - book: Book
+  - user: User
+  + execute(): void
+}
+
+' Reservation class
+RECTANGLE Reservation {
+  - reservationID: int
+  - book: Book
+  - user: User
+  - status: bool
+  + reserveBook(): void
+  + cancelReservation(): void
+}
+
+' Fine management class
+RECTANGLE Fine {
+  - fineID: int
+  - user: User
+  - amount: double
+  - status: bool
+  + applyFine(): void
+  + payFine(): void
+}
+
+' Report generation class
+RECTANGLE Report {
+  - reportID: int
+  - type: string
+  - data: vector<string>
+  + generate(): void
+}
+
+' Notification system
+INTERFACE Notification {
+  + notify(message: string): void
+}
+
+RECTANGLE EmailNotification {
+  + notify(message: string): void
+}
+
+RECTANGLE SMSNotification {
+  + notify(message: string): void
+}
+
+' Logging system
+RECTANGLE Log {
+  - logID: int
+  - message: string
+  - timestamp: string
+  + logEvent(): void
+}
+
+' Relationships
+Transaction <|-- BorrowTransaction
+Transaction <|-- ReturnTransaction
+Notification <|-- EmailNotification
+Notification <|-- SMSNotification
+Library "1" *-- "many" Book
+Library "1" *-- "many" User
+Library "1" *-- "many" Transaction
+Library "1" *-- "many" Reservation
+Library "1" *-- "many" Log
+Library "1" *-- "many" Fine
+User "1" *-- "many" Book
+User "1" *-- "many" Reservation
+User "1" <|-- Admin
+User "1" <|-- Librarian
+User "1" <|-- Member
+
+@enduml
