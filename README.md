@@ -4,8 +4,6 @@
 
 ## Project Description
 
-The Library Management System (LMS) project is implemented in C++ and provides a comprehensive system for managing a library's operations. It includes functionalities for managing users (admins, librarians, and members), books, transactions (borrowing and returning), notifications (email and SMS), logging events, and generating reports.
-
 ### Features
 
 - **User Management**: Supports different user roles such as admins, librarians, and members with specific privileges.
